@@ -19,20 +19,16 @@ class Order
 
     public function total()
     {
+        if (isset($this->coupon)) {
+            $discount = $this->coupon->value;
+        } else {
+            $discount = 0;
+        }
+
         $totalPrice = 0;
 
         foreach ($this->books as $book) {
             $totalPrice += $book->price;
-        }
-
-        if (isset($this->coupon)) {
-            if ($this->coupon->is_percent) {
-                $discount = $totalPrice * ($this->coupon->value / 100);
-            } else {
-                $discount = $this->coupon->value;
-            }
-        } else {
-            $discount = 0;
         }
 
         return $totalPrice - $discount;

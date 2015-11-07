@@ -4,5 +4,10 @@ namespace App;
 
 class Coupon
 {
-    use AttributeAccess;
+    public $value;
+
+    public function __construct($attributes)
+    {
+        $this->value = $attributes['value'];
+    }
 }
