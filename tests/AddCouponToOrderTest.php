@@ -6,7 +6,37 @@ use App\Order;
 
 class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
 {
+    function test_an_order_with_no_coupon_is_not_discounted()
+    {
+        $books = [
+            new Book(['price' => 2000]),
+            new Book(['price' => 3000]),
+            new Book(['price' => 4000]),
+        ];
 
+        $order = new Order($books);
+
+        $this->assertEquals(9000, $order->total());
+    }
+
+    function test_a_discount_is_applied_when_a_coupon_is_added_to_an_order()
+    {
+        $books = [
+            new Book(['price' => 2000]),
+            new Book(['price' => 3000]),
+            new Book(['price' => 4000]),
+        ];
+
+        $coupon = new Coupon([
+            'value' => 1000
+        ]);
+
+        $order = new Order($books);
+
+        $order->applyCoupon($coupon);
+
+        $this->assertEquals(8000, $order->total());
+    }
 }
 
 
