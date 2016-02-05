@@ -37,56 +37,11 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(8000, $order->total());
     }
-}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // function test_an_order_with_no_coupon_is_not_discounted()
-    // {
-    //     $books = [
-    //         new Book(['price' => 2000]),
-    //         new Book(['price' => 3000]),
-    //         new Book(['price' => 4000]),
-    //     ];
-
-    //     $order = new Order($books);
-
-    //     $this->assertEquals(9000, $order->total());
-    // }
-
-    // function test_a_discount_is_applied_when_a_coupon_is_added_to_an_order()
-    // {
-    //     $books = [
-    //         new Book(['price' => 2000]),
-    //         new Book(['price' => 3000]),
-    //         new Book(['price' => 4000]),
-    //     ];
-
-    //     $coupon = new Coupon([
-    //         'value' => 1000
-    //     ]);
-
-    //     $order = new Order($books);
-
-    //     $order->applyCoupon($coupon);
-
-    //     $this->assertEquals(8000, $order->total());
-    // }
 
     // function test_an_order_is_discounted_by_a_percentage_when_a_percent_off_coupon_is_applied()
     // {
@@ -108,6 +63,11 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
     //     $this->assertEquals(6300, $order->total());
     // }
 
+
+
+
+
+
     // function test_a_minimum_quantity_coupon_applies_a_discount_if_the_order_contains_the_minimum_amount_of_items()
     // {
     //     $books = [
@@ -117,7 +77,6 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
     //     ];
 
     //     $coupon = new MinimumQuantityCoupon([
-    //         'code' => 'F00B4R',
     //         'value' => 20,
     //         'minimum_quantity' => 2,
     //     ]);
@@ -137,7 +96,6 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
     //     ];
 
     //     $coupon = new MinimumQuantityCoupon([
-    //         'code' => 'F00B4R',
     //         'value' => 20,
     //         'minimum_quantity' => 3,
     //     ]);
@@ -148,3 +106,4 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
 
     //     $this->assertEquals(5000, $order->total());
     // }
+}
