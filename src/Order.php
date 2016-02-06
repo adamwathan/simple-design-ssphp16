@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Collection;
+
 class Order
 {
     private $books;
@@ -9,7 +11,8 @@ class Order
 
     public function __construct($books)
     {
-        $this->books = $books;
+        $this->books = new Collection($books);
+        $this->coupon = new NoCoupon;
     }
 
     public function applyCoupon($coupon)
@@ -19,18 +22,21 @@ class Order
 
     public function total()
     {
-        if (isset($this->coupon)) {
-            $discount = $this->coupon->value;
-        } else {
-            $discount = 0;
-        }
+        return $this->grossTotal() - $this->calculateDiscount();
+    }
 
-        $totalPrice = 0;
+    public function grossTotal()
+    {
+        return $this->books->sum('price');
+    }
 
-        foreach ($this->books as $book) {
-            $totalPrice += $book->price;
-        }
+    public function quantity()
+    {
+        return $this->books->count();
+    }
 
-        return $totalPrice - $discount;
+    private function calculateDiscount()
+    {
+        return $this->coupon->discount($this);
     }
 }

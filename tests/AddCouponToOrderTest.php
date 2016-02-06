@@ -2,7 +2,10 @@
 
 use App\Book;
 use App\Coupon;
+use App\FixedValueCoupon;
+use App\MinimumQuantityCoupon;
 use App\Order;
+use App\PercentOffCoupon;
 
 class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
 {
@@ -27,8 +30,8 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
             new Book(['price' => 4000]),
         ];
 
-        $coupon = new Coupon([
-            'value' => 1000
+        $coupon = new FixedValueCoupon([
+            'value' => 1000,
         ]);
 
         $order = new Order($books);
@@ -43,67 +46,66 @@ class AddCouponToOrderTest extends PHPUnit_Framework_TestCase
 
 
 
-    // function test_an_order_is_discounted_by_a_percentage_when_a_percent_off_coupon_is_applied()
-    // {
-    //     $books = [
-    //         new Book(['price' => 2000]),
-    //         new Book(['price' => 3000]),
-    //         new Book(['price' => 4000]),
-    //     ];
+    function test_an_order_is_discounted_by_a_percentage_when_a_percent_off_coupon_is_applied()
+    {
+        $books = [
+            new Book(['price' => 2000]),
+            new Book(['price' => 3000]),
+            new Book(['price' => 4000]),
+        ];
 
-    //     $coupon = new Coupon([
-    //         'value' => 30,
-    //         'is_percent' => true,
-    //     ]);
+        $coupon = new PercentOffCoupon([
+            'value' => 30,
+        ]);
 
-    //     $order = new Order($books);
+        $order = new Order($books);
 
-    //     $order->applyCoupon($coupon);
+        $order->applyCoupon($coupon);
 
-    //     $this->assertEquals(6300, $order->total());
-    // }
-
+        $this->assertEquals(6300, $order->total());
+    }
 
 
 
 
 
-    // function test_a_minimum_quantity_coupon_applies_a_discount_if_the_order_contains_the_minimum_amount_of_items()
-    // {
-    //     $books = [
-    //         new Book(['price' => 2000]),
-    //         new Book(['price' => 3000]),
-    //         new Book(['price' => 4000]),
-    //     ];
 
-    //     $coupon = new MinimumQuantityCoupon([
-    //         'value' => 20,
-    //         'minimum_quantity' => 2,
-    //     ]);
+    function test_a_minimum_quantity_coupon_applies_a_discount_if_the_order_contains_the_minimum_amount_of_items()
+    {
+        $books = [
+            new Book(['price' => 2000]),
+            new Book(['price' => 3000]),
+            new Book(['price' => 4000]),
+        ];
 
-    //     $order = new Order($books);
+        $coupon = new MinimumQuantityCoupon([
+            'coupon' => new PercentOffCoupon(['value' => 20]),
+            'minimum_quantity' => 2,
+        ]);
 
-    //     $order->applyCoupon($coupon);
+        $order = new Order($books);
 
-    //     $this->assertEquals(7200, $order->total());
-    // }
+        $order->applyCoupon($coupon);
 
-    // function test_a_minimum_quantity_coupon_does_not_apply_a_discount_if_the_order_does_not_contain_the_minimum_amount_of_items()
-    // {
-    //     $books = [
-    //         new Book(['price' => 2000]),
-    //         new Book(['price' => 3000]),
-    //     ];
+        $this->assertEquals(7200, $order->total());
+    }
 
-    //     $coupon = new MinimumQuantityCoupon([
-    //         'value' => 20,
-    //         'minimum_quantity' => 3,
-    //     ]);
+    function test_a_minimum_quantity_coupon_does_not_apply_a_discount_if_the_order_does_not_contain_the_minimum_amount_of_items()
+    {
+        $books = [
+            new Book(['price' => 2000]),
+            new Book(['price' => 3000]),
+        ];
 
-    //     $order = new Order($books);
+        $coupon = new MinimumQuantityCoupon([
+            'coupon' => new PercentOffCoupon(['value' => 20]),
+            'minimum_quantity' => 3,
+        ]);
 
-    //     $order->applyCoupon($coupon);
+        $order = new Order($books);
 
-    //     $this->assertEquals(5000, $order->total());
-    // }
+        $order->applyCoupon($coupon);
+
+        $this->assertEquals(5000, $order->total());
+    }
 }
